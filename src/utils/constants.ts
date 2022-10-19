@@ -510,17 +510,19 @@ export const ITEMS: Record<
     hint?: string[];
     id: number;
     img: string;
-    dname: string;
+    dname?: string;
     qual?: string;
-    cost: number;
+    cost: number | null;
     notes: string;
     attrib: any[];
-    mc: boolean;
+    mc: boolean | number;
     cd: number | boolean;
     lore: string;
     components?: any;
     created: boolean;
-    charges: boolean | number;
+    charges?: boolean | number;
+    tier?: number;
+    desc?: string;
   }
 > = {
   blink: {
@@ -9441,8 +9443,6 @@ export const PLAYER_COLORS: Record<string | number, string> = {
   '131': '#008321',
   '132': '#A46900',
 };
-
- 
 
 export const HEROES: Record<string, Hero> = {
   '1': {

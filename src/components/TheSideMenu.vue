@@ -66,8 +66,10 @@ export default defineComponent({
     };
   },
   methods: {
-    close() {
+    close(e?: MouseEvent): MouseEvent | undefined {
       this.shown = false;
+
+      return e;
     },
   },
   watch: {

@@ -18,9 +18,11 @@ export default defineComponent({
     'update:modelValue': (value: string) => value,
   },
   methods: {
-    onInput(e: Event): void {
+    onInput(e: Event): Event {
       const input = e.target as HTMLInputElement;
       this.$emit('update:modelValue', input.value);
+
+      return e;
     },
   },
 });
