@@ -1,0 +1,48 @@
+@import '@/scss/variables.scss';
+@import 'normalize.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: $color-dark-violet;
+  color: $color-brightest-violet;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+
+  @media screen and (min-width: 600px) {
+    font-size: $root-font-size + px;
+    line-height: 19px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+dl,
+dd,
+dt {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.text {
+  &--white {
+    color: $color-white;
+  }
+}
