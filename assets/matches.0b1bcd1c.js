@@ -1,1 +1,0 @@
-import{c as t}from"./AppCaption.2b0a1b25.js";const e=async a=>{const{data:c}=await t.get(`matches/${a}`);return c},n=async()=>{const{data:a}=await t.get("publicMatches?mmr_ascending=1");return a};export{e as a,n as g};
