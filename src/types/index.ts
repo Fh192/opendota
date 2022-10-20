@@ -1,5 +1,6 @@
 export type ButtonColor = 'white' | 'violet' | 'black';
 export type ButtonSize = 'sm' | 'md';
+export type InputValidationRules = (e: string) => string | boolean;
 
 export interface Hero {
   id: number;
