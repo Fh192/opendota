@@ -1,17 +1,19 @@
 <template>
-  <div class="tooltip">
-    <slot name="activator" v-bind="activatorProps" />
-    <div
-      v-show="shown"
-      class="tooltip__content"
-      ref="tooltip"
-      :style="{ maxWidth, top, left }"
-    >
-      <div class="tooltip__content-inner">
-        <slot />
+  <slot name="activator" v-bind="activatorProps" />
+  <teleport v-if="initialized" to="body">
+    <transition>
+      <div
+        v-show="shown"
+        class="tooltip__content"
+        ref="tooltip"
+        :style="{ top, left, maxWidth: computedMaxWidth }"
+      >
+        <span class="tooltip__content-inner">
+          <slot />
+        </span>
       </div>
-    </div>
-  </div>
+    </transition>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -29,37 +31,58 @@ export default defineComponent({
   },
   data() {
     return {
-      shown: false,
       top: '0px',
       left: '0px',
+      shown: false,
+      initialized: false,
+      target: null as HTMLElement | null,
     };
   },
   computed: {
+    computedMaxWidth(): string {
+      const maxWidth = parseInt(this.maxWidth);
+      return `${innerWidth > maxWidth ? maxWidth : innerWidth - 12}px`;
+    },
     activatorProps() {
       return {
         on: {
-          mouseenter: () => (this.shown = true),
-          mouseleave: () => (this.shown = false),
+          mouseenter: this.onMouseEnter,
+          mouseleave: this.onMouseLeave,
         },
       };
+    },
+  },
+  methods: {
+    onMouseEnter(e: MouseEvent) {
+      this.shown = true;
+      this.initialized = true;
+      this.target = e.target as HTMLElement;
+    },
+    onMouseLeave(e: MouseEvent) {
+      this.shown = false;
     },
   },
   watch: {
     shown: {
       immediate: true,
-      handler(shown: boolean) {
-        this.$nextTick(() => {
-          const tooltip = this.$refs.tooltip as HTMLElement | undefined;
+      async handler(shown: boolean) {
+        if (!shown) return undefined;
 
-          if (!shown || !tooltip) return undefined;
+        await this.$nextTick();
 
-          this.top = `-${tooltip.clientHeight + 10 + 5}px`;
-          this.left = `-${tooltip.clientWidth / 2 - 10}px`;
-        });
+        const { target } = this;
+        const tooltip = this.$refs.tooltip as HTMLElement | undefined;
+
+        if (!tooltip || !target) return undefined;
+
+        const { clientHeight, clientWidth } = tooltip;
+        const rect = target.getBoundingClientRect();
+
+        const left = rect.left - clientWidth / 2 + rect.width / 2;
+
+        this.top = `${rect.top - clientHeight + scrollY - 12}px`;
+        this.left = `${left < 12 ? 12 : left}px`;
       },
-    },
-    top(top) {
-      console.log(top);
     },
   },
 });
@@ -70,11 +93,10 @@ export default defineComponent({
 @import '@/scss/variables.scss';
 
 .tooltip {
-  position: relative;
-
   &__content {
     position: absolute;
     z-index: 999;
+    display: flex;
     box-shadow: to-rem(0) to-rem(25) to-rem(80) to-rem(-25) rgba(0, 0, 0, 0.5);
     background: $color-bright-violet;
     border-radius: to-rem(4);
@@ -83,7 +105,7 @@ export default defineComponent({
   &__content-inner {
     position: relative;
     padding: to-rem(20);
-    white-space: pre-wrap;
+    white-space: normal;
 
     &::after {
       content: '';
@@ -99,5 +121,15 @@ export default defineComponent({
       bottom: to-rem(-9);
     }
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

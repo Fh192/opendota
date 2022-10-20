@@ -6,16 +6,16 @@
         :to="`/matches/${match.match_id}`"
         v-text="match.match_id"
       />
-      <div class="table-col__info">
-        <app-tooltip>
-          <template #activator="{ on }">
-            <time v-on="on" v-text="ended" />
-          </template>
-          {{ endedDate }}
-        </app-tooltip>
-        <span class="table-col__info-separator">&nbsp;/&nbsp;</span>
-        <span v-text="'Immortal'" />
-      </div>
+      <app-tooltip>
+        <template #activator="{ on }">
+          <div v-on="on" class="table-col__info">
+            <time v-text="ended" />
+            <span class="table-col__info-separator">&nbsp;/&nbsp;</span>
+            <span v-text="'Immortal'" />
+          </div>
+        </template>
+        {{ endedDate }}
+      </app-tooltip>
     </td>
     <td class="table-col">
       <time datetime="" v-text="duration" />
