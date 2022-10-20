@@ -118,8 +118,5 @@ export default {
   &__header {
     background: $color-violet;
   }
-
-  &__loader {
-  }
 }
 </style>
