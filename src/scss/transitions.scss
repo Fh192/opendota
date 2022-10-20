@@ -1,0 +1,9 @@
+.dissolve-enter-active,
+.dissolve-leave-active {
+  transition: opacity 0.25s ease-out;
+}
+
+.dissolve-enter-from,
+.dissolve-leave-to {
+  opacity: 0;
+}

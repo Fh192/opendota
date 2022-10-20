@@ -1,6 +1,6 @@
 <template>
   <the-header v-model:menu-shown="shown" />
-  <transition name="menu">
+  <transition name="dissolve">
     <div v-if="shown" class="side-menu" @mouseleave="close">
       <nav class="side-menu__nav">
         <ul class="side-menu__routes-list">
@@ -129,15 +129,5 @@ export default defineComponent({
   &:deep(.side-menu__open-button) {
     padding: 0;
   }
-}
-
-.menu-enter-active,
-.menu-leave-active {
-  transition: opacity 0.25s ease-out;
-}
-
-.menu-enter-from,
-.menu-leave-to {
-  opacity: 0;
 }
 </style>

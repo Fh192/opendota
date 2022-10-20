@@ -1,7 +1,7 @@
 <template>
   <slot name="activator" v-bind="activatorProps" />
   <teleport v-if="initialized" to="body">
-    <transition>
+    <transition name="dissolve">
       <div
         v-show="shown"
         class="tooltip__content"
@@ -18,11 +18,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AppButton from './AppButton.vue';
 
 export default defineComponent({
   name: 'AppTooltip',
-  components: { AppButton },
   props: {
     maxWidth: {
       type: String,
@@ -77,7 +75,6 @@ export default defineComponent({
 
         const { clientHeight, clientWidth } = tooltip;
         const rect = target.getBoundingClientRect();
-
         const left = rect.left - clientWidth / 2 + rect.width / 2;
 
         this.top = `${rect.top - clientHeight + scrollY - 12}px`;
@@ -121,15 +118,5 @@ export default defineComponent({
       bottom: to-rem(-9);
     }
   }
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.25s ease-out;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>

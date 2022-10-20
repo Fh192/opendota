@@ -1,6 +1,7 @@
 import App from '@/App.vue';
 import router from '@/router';
 import '@/scss/global-styles.scss';
+import '@/scss/transitions.scss';
 import { createApp } from 'vue';
 
 const app = createApp(App);
