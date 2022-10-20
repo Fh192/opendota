@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts">
-import TeamsListFooter from '@/components/TeamsListFooter.vue';
-import TeamsListHeader from '@/components/TeamsListHeader.vue';
-import TeamsListItem from '@/components/TeamsListItem.vue';
+import TeamsListFooter from '@/components/TeamsTableFooter.vue';
+import TeamsListHeader from '@/components/TeamsTableHeader.vue';
+import TeamsListItem from '@/components/TeamsTableRow.vue';
 import AppTable from '@/components/ui/AppTable.vue';
 import { MaxTeamValues, Team } from '@/types/teams';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-  name: 'TeamsList',
+  name: 'TeamsTable',
   components: { TeamsListHeader, TeamsListItem, TeamsListFooter, AppTable },
   props: {
     teams: {

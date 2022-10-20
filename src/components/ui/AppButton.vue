@@ -59,10 +59,10 @@ export default defineComponent({
     component() {
       return this.to ? 'router-link' : this.href ? 'a' : 'button';
     },
-    hasIcon() {
-      return this.$slots.append || this.$slots.prepend;
+    hasIcon(): boolean {
+      return !!this.$slots.append || !!this.$slots.prepend;
     },
-    onlyIcon() {
+    onlyIcon(): boolean {
       return this.hasIcon && !this.$slots.default;
     },
     iconAttrs() {

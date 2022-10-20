@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'TeamsListHeader',
+  name: 'TeamsTableHeader',
   data() {
     return {
       columns: ['Ранг', 'Название команды', 'Рейтинг', 'Победы', 'Проигрыши'],

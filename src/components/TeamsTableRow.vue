@@ -41,7 +41,7 @@ import { getNumberWithOrdinal, getRelativeTime } from '@/utils/helpers';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-  name: 'TeamsListItem',
+  name: 'TeamsTableRow',
   components: { AppProgress },
   props: {
     team: {

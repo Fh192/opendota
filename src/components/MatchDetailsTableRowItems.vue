@@ -3,7 +3,7 @@
     <div class="items__row">
       <ul class="items__list">
         <li v-for="(_, i) in 6" class="items__list-item">
-          <img :src="slotImages[i]" alt="" />
+          <img alt="" :src="slotImages[i]" />
         </li>
       </ul>
       <ul class="items__list items__list--backpack">
@@ -11,12 +11,12 @@
           <backpack-icon width="20" height="20" fill="#BBDD00" />
         </li>
         <li v-for="(_, i) in 3" class="items__list-item">
-          <img :src="backpackImages[i]" alt="" />
+          <img alt="" :src="backpackImages[i]" />
         </li>
       </ul>
     </div>
     <div class="items__list-item items__list-item--neutral">
-      <img :src="neutralImage" alt="" />
+      <img alt="" :src="neutralImage" />
     </div>
     <div class="items__shard">
       <img alt="" :src="scepterImage" />
@@ -34,6 +34,7 @@ import scepter1 from '@/assets/scepter_1.png';
 import scepter2 from '@/assets/scepter_2.png';
 import shard1 from '@/assets/shard_1.png';
 import shard2 from '@/assets/shard_2.png';
+import { Item } from '@/types';
 import { Player } from '@/types/matches';
 import {
   ASSETS_URL,
@@ -55,51 +56,39 @@ export default defineComponent({
   },
   computed: {
     buffs(): string[] {
-      return this.player.permanent_buffs.map(({ permanent_buff }) => {
+      return (this.player.permanent_buffs ?? []).map(({ permanent_buff }) => {
         return PERMANENT_BUFFS[permanent_buff];
       });
     },
     backpackImages(): string[] {
-      const { player } = this;
-
-      return [player.backpack_0, player.backpack_1, player.backpack_2]
-        .filter((id) => !!id)
-        .map((id) => {
-          const { img } = this.getItemById(id);
-          return `${ASSETS_URL}${img}`;
-        });
+      return this.getItemsImages([
+        this.player.backpack_0,
+        this.player.backpack_1,
+        this.player.backpack_2,
+      ]);
     },
     slotImages(): string[] {
-      const { player } = this;
-
-      return [
-        player.item_0,
-        player.item_1,
-        player.item_2,
-        player.item_3,
-        player.item_4,
-        player.item_5,
-      ]
-        .filter((id) => !!id)
-        .map((id) => {
-          const { img } = this.getItemById(id);
-          return `${ASSETS_URL}${img}`;
-        });
+      return this.getItemsImages([
+        this.player.item_0,
+        this.player.item_1,
+        this.player.item_2,
+        this.player.item_3,
+        this.player.item_4,
+        this.player.item_5,
+      ]);
     },
-    shardImage() {
+    shardImage(): string {
       const hasShard = this.buffs.includes('aghanims_shard');
       return hasShard ? shard2 : shard1;
     },
-    scepterImage() {
+    scepterImage(): string {
       const hasScepter = this.buffs.includes('ultimate_scepter');
       return hasScepter ? scepter2 : scepter1;
     },
-    neutralImage() {
-      const { player } = this;
-
-      return `${ASSETS_URL}${this.getItemById(player.item_neutral)?.img}`;
+    neutralImage(): string {
+      return this.getItemImage(this.player.item_neutral);
     },
-    buffImage() {
+    buffImage(): string {
       const buffName = this.buffs.find((buff) => {
         return buff !== 'aghanims_shard' && buff !== 'ultimate_scepter';
       });
@@ -107,13 +96,21 @@ export default defineComponent({
       if (!buffName) return '';
 
       const buff = ITEMS[buffName];
-
       return `${ASSETS_URL}${buff?.img}`;
     },
   },
   methods: {
-    getItemById(id: string | number) {
+    getItemById(id: string | number): Item | undefined {
       return ITEMS[ITEM_IDS[id]];
+    },
+    getItemImage(id: string | number): string {
+      const item = this.getItemById(id);
+      if (!item) return '';
+
+      return `${ASSETS_URL}${item.img}`;
+    },
+    getItemsImages(itemsIds: number[]): string[] {
+      return itemsIds.filter((id) => !!id).map((id) => this.getItemImage(id));
     },
   },
 });

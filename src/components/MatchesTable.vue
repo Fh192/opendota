@@ -12,7 +12,6 @@
         :key="match.match_id"
       />
     </template>
-    <template #footer> </template>
   </app-table>
 </template>
 

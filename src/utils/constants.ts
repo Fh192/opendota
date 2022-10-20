@@ -1,4 +1,4 @@
-import { Hero } from '@/types';
+import { Hero, Item } from '@/types';
 
 export const ASSETS_URL = 'https://cdn.cloudflare.steamstatic.com';
 
@@ -504,27 +504,7 @@ export const PERMANENT_BUFFS: Record<string | number, string> = {
   '14': 'necrolyte_reapers_scythe',
 };
 
-export const ITEMS: Record<
-  string,
-  {
-    hint?: string[];
-    id: number;
-    img: string;
-    dname?: string;
-    qual?: string;
-    cost: number | null;
-    notes: string;
-    attrib: any[];
-    mc: boolean | number;
-    cd: number | boolean;
-    lore: string;
-    components?: any;
-    created: boolean;
-    charges?: boolean | number;
-    tier?: number;
-    desc?: string;
-  }
-> = {
+export const ITEMS: Record<string, Item> = {
   blink: {
     hint: [
       'Active: Blink Teleport to a target point up to 1200 units away. Blink Dagger cannot be used for 3 seconds after taking damage from an enemy hero or Roshan.',

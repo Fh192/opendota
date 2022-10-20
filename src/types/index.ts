@@ -32,3 +32,22 @@ export interface Hero {
   cm_enabled: boolean;
   legs: number;
 }
+
+export interface Item {
+  hint?: string[];
+  id: number;
+  img: string;
+  dname?: string;
+  qual?: string;
+  cost: number | null;
+  notes: string;
+  attrib: any[];
+  mc: boolean | number;
+  cd: number | boolean;
+  lore: string;
+  components?: any;
+  created: boolean;
+  charges?: boolean | number;
+  tier?: number;
+  desc?: string;
+}

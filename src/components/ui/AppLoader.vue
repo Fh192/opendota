@@ -10,9 +10,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'AppLoader',
-  components: {
-    SpinnerIcon,
-  },
+  components: { SpinnerIcon },
   props: {
     size: {
       type: [String, Number],

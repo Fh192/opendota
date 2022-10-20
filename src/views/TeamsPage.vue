@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { getTeams } from '@/api/teams';
-import TeamsList from '@/components/TeamsList.vue';
+import TeamsList from '@/components/TeamsTable.vue';
 import AppButton from '@/components/ui/AppButton.vue';
 import AppCaption from '@/components/ui/AppCaption.vue';
 import { MaxTeamValues, Team } from '@/types/teams';

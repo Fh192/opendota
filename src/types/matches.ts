@@ -28,7 +28,7 @@ export interface Player {
   tower_damage: number;
   hero_healing: number;
   isRadiant: boolean;
-  permanent_buffs: PermanentBuff[];
+  permanent_buffs: PermanentBuff[] | null;
   item_0: number;
   item_1: number;
   item_2: number;

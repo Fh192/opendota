@@ -22,7 +22,7 @@ import AppTooltip from '@/components/ui/AppTooltip.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'TeamsListFooter',
+  name: 'TeamsTableFooter',
   components: { InfoIcon, AppTooltip },
 });
 </script>

@@ -5,7 +5,11 @@
         class="table-column__hero-image-wrapper"
         :style="{ '--color': playerColor }"
       >
-        <img class="table-column__hero-image" :src="heroImage" alt="" />
+        <img
+          class="table-column__hero-image"
+          :src="heroImage"
+          :alt="hero.name"
+        />
       </div>
       <div class="table-column__player-info">
         <router-link
@@ -33,6 +37,7 @@
 <script lang="ts">
 import BackpackIcon from '@/assets/backpack.svg';
 import MatchDetailsTableRowItems from '@/components/MatchDetailsTableRowItems.vue';
+import { Hero } from '@/types';
 import { Player } from '@/types/matches';
 import { ASSETS_URL, HEROES, PLAYER_COLORS } from '@/utils/constants';
 import { getRank, kFormatter } from '@/utils/helpers';
@@ -49,11 +54,13 @@ export default defineComponent({
     },
   },
   computed: {
-    heroImage(): string {
-      const { hero_id } = this.player;
-      return `${ASSETS_URL}${HEROES[hero_id].img}`;
+    hero(): Hero {
+      return HEROES[this.player.hero_id];
     },
-    stats() {
+    heroImage(): string {
+      return `${ASSETS_URL}${this.hero.img}`;
+    },
+    stats(): string[] {
       const { player } = this;
 
       return [
@@ -69,7 +76,7 @@ export default defineComponent({
         kFormatter(player.hero_healing),
       ];
     },
-    playerColor() {
+    playerColor(): string {
       return PLAYER_COLORS[this.player.player_slot];
     },
     playerRank(): string {
