@@ -1,5 +1,5 @@
 <template>
-  <tr class="table-row">
+  <tr :class="['table-row', { 'table-row--public': isPublic }]">
     <td class="table-col">
       <router-link
         class="table-col__link"
@@ -11,7 +11,7 @@
           <div v-on="on" class="table-col__info">
             <time v-text="ended" />
             <span class="table-col__info-separator">&nbsp;/&nbsp;</span>
-            <span v-text="'Immortal'" />
+            <span v-text="type" />
           </div>
         </template>
         {{ endedDate }}
@@ -26,14 +26,10 @@
       </td>
     </template>
     <td v-else v-for="team in teams" class="table-col" :key="team.id">
-      <div class="table-col__team">
+      <router-link class="table-col__team" :to="`/teams/${team.id}/matches`">
         <img class="table-col__team-logo" :src="team.logo" :alt="team.name" />
-        <router-link
-          class="table-col__team-name"
-          :to="`/teams/${team.id}/matches`"
-          v-text="team.name"
-        />
-      </div>
+        <span class="table-col__team-name" v-text="team.name" />
+      </router-link>
     </td>
   </tr>
 </template>
@@ -46,7 +42,7 @@ import { Hero } from '@/types';
 import { PublicMatch, TeamMatch } from '@/types/matches';
 import { Team } from '@/types/teams';
 import { ASSETS_URL, HEROES } from '@/utils/constants';
-import { getDuration, getRelativeTime } from '@/utils/helpers';
+import { getDuration, getRank, getRelativeTime } from '@/utils/helpers';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -67,14 +63,10 @@ export default defineComponent({
     },
   },
   computed: {
-    // playerRank(): string {
-    //   const {   } = this.match;
-    //   if (!rank_tier) return 'Unknown';
-
-    //   const [rank, stars] = rank_tier.toString();
-
-    //   return `${RANK[rank]}${+stars ? ` [${stars}]` : ''}`;
-    // },
+    type(): string {
+      if (!this.isPublic) return (this.match as TeamMatch).league_name;
+      return getRank((this.match as PublicMatch).avg_rank_tier);
+    },
     radiantHeroes(): Hero[] {
       if (!this.isPublic) return [];
       const { radiant_team } = this.match as PublicMatch;
@@ -175,13 +167,25 @@ export default defineComponent({
 
 .table-row {
   grid-template-columns:
-    to-rem(120) to-rem(130)
+    to-rem(175) to-rem(130)
     repeat(2, to-rem(70));
 
   @media screen and (min-width: to-rem(600)) {
     grid-template-columns:
-      to-rem(240) to-rem(220)
-      to-rem(268) to-rem(248);
+      to-rem(340) to-rem(200)
+      repeat(2, to-rem(220));
+  }
+
+  &--public {
+    grid-template-columns:
+      to-rem(120) to-rem(130)
+      repeat(2, to-rem(70));
+
+    @media screen and (min-width: to-rem(600)) {
+      grid-template-columns:
+        to-rem(260) to-rem(200)
+        to-rem(268) to-rem(248);
+    }
   }
 }
 
@@ -221,7 +225,7 @@ export default defineComponent({
     display: none;
 
     @media screen and (min-width: to-rem(600)) {
-      display: inline;
+      display: inline-block;
     }
   }
 
@@ -238,6 +242,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: to-rem(10);
+    text-decoration: none;
   }
 
   &__team-logo {
@@ -247,7 +252,11 @@ export default defineComponent({
 
   &__team-name {
     color: $color-lime;
-    text-decoration: none;
+    display: none;
+
+    @media screen and (min-width: to-rem(600)) {
+      display: inline-block;
+    }
   }
 }
 </style>

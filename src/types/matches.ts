@@ -78,6 +78,13 @@ export interface PublicMatch {
   radiant_win: boolean;
   start_time: number;
   duration: number;
+  avg_mmr: number;
+  num_mmr: number;
+  lobby_type: number;
+  game_mode: number;
+  avg_rank_tier: number;
+  num_rank_tier: number;
+  cluster: number;
   radiant_team: string;
   dire_team: string;
 }

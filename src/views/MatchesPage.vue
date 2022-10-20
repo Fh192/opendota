@@ -70,6 +70,16 @@ export default defineComponent({
         console.error(err);
       }
     },
+    async fetchData() {
+      try {
+        this.loading = true;
+        await Promise.allSettled([this.getMatches(), this.getTeam()]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.loading = false;
+      }
+    },
     onButtonClick() {
       this.slice += 10;
     },
@@ -78,16 +88,17 @@ export default defineComponent({
     slice(value) {
       this.ended = value >= this.matches.length;
     },
-  },
-  async mounted() {
-    try {
-      this.loading = true;
-      await Promise.allSettled([this.getMatches(), this.getTeam()]);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.loading = false;
-    }
+    '$route.fullPath': {
+      immediate: true,
+      async handler() {
+        this.matches = [];
+        this.team = null;
+        this.slice = 10;
+        this.ended = false;
+
+        await this.fetchData();
+      },
+    },
   },
 });
 </script>

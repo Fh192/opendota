@@ -9,7 +9,7 @@ export const getMatchDetails = async (id: number): Promise<MatchDetails> => {
 
 export const getPublicMatches = async (): Promise<PublicMatch[]> => {
   const { data } = await api.get<PublicMatch[]>(
-    'publicMatches?mmr_ascending=1'
+    'publicMatches?mmr_descending=1'
   );
 
   return data;

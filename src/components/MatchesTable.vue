@@ -1,7 +1,7 @@
 <template>
   <app-table :loading="loading">
     <template #header>
-      <matches-table-header />
+      <matches-table-header :is-public="isPublic" />
     </template>
     <template #body>
       <matches-table-row
