@@ -147,6 +147,18 @@ export default defineComponent({
     }
   }
 
+  &--black {
+    color: $color-black;
+
+    &:hover {
+      color: $color-lime;
+    }
+
+    &.button--disabled {
+      color: $color-light-gray;
+    }
+  }
+
   &--violet {
     color: $color-white;
     background-color: $color-bright-violet;

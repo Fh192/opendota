@@ -1,4 +1,4 @@
-export type ButtonColor = 'white' | 'violet';
+export type ButtonColor = 'white' | 'violet' | 'black';
 export type ButtonSize = 'sm' | 'md';
 
 export interface Hero {
